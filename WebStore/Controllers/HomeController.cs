@@ -6,12 +6,13 @@ namespace WebStore.Controllers
     {
         public IActionResult Index()
         {
-            return Content("Home controller - action Index");
+            return View();
+            //return View("OtherViewName");
         }
 
         public IActionResult SomeAction()
         {
-            return Content("Home controller - action SomeAction");
+            return View();
         }
     }
 }
