@@ -5,4 +5,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
