@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Employee>
+
+@{
+    //ViewData["Title"] = "Сотрудники";
+    ViewBag.Title = "Сотрудники";
+}
+
+<div class="container">
+    <h3>@ViewData["Title"]</h3>
+
+    <hr />
+
+    <table class="table table-bordered" id="employees-table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Возраст</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>@employee.Id</td>
+                    <td>@employee.SurName</td>
+                    <td>@employee.FirstName</td>
+                    <td>@employee.Patronymic</td>
+                    <td>@employee.Age</td>
+                    <td>
+                        <a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Карточка</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Styles{
+    <style>
+        #employees-table {
+            background: red
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <!-- <script>QWE</script> -->
+}
