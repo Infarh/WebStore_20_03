@@ -19,6 +19,7 @@
                 <th>Отчество</th>
                 <th>Возраст</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +33,9 @@
                     <td>@employee.Age</td>
                     <td>
                         <a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Карточка</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Employees" asp-action="Edit" asp-route-Id="@employee.Id">Edit</a>
                     </td>
                 </tr>
             }
