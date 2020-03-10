@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Employee>
+﻿@model IEnumerable<EmployeeViewModel>
 
 @{
     //ViewData["Title"] = "Сотрудники";
@@ -22,6 +22,7 @@
                 <th>Возраст</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -29,8 +30,8 @@
             {
                 <tr>
                     <td>@employee.Id</td>
-                    <td>@employee.SurName</td>
-                    <td>@employee.FirstName</td>
+                    <td>@employee.SecondName</td>
+                    <td>@employee.Name</td>
                     <td>@employee.Patronymic</td>
                     <td>@employee.Age</td>
                     <td>
@@ -38,6 +39,9 @@
                     </td>
                     <td>
                         <a asp-controller="Employees" asp-action="Edit" asp-route-Id="@employee.Id">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Employees" asp-action="Delete" asp-route-Id="@employee.Id" class="text-danger">Delete</a>
                     </td>
                 </tr>
             }
