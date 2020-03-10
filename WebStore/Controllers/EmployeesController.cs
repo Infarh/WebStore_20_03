@@ -26,6 +26,26 @@ namespace WebStore.Controllers
             return View(employee);
         }
 
+        public IActionResult Create()
+        {
+            return View(new Employee());
+        }
+
+        [HttpPost]
+        public IActionResult Create(Employee Employee)
+        {
+            if(Employee is null)
+                throw new ArgumentNullException(nameof(Employee));
+
+            if (!ModelState.IsValid)
+                return View(Employee);
+
+            _EmployeesData.Add(Employee);
+            _EmployeesData.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Edit(int? Id)
         {
             if (Id is null) return View(new Employee());
