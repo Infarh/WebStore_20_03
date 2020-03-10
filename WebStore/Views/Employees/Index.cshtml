@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Employee>
+﻿@model IEnumerable<EmployeeViewModel>
 
 @{
     //ViewData["Title"] = "Сотрудники";
@@ -8,6 +8,8 @@
 <div class="container">
     <h3>@ViewData["Title"]</h3>
 
+    <a asp-action="Edit" class="btn btn-success">Создать через Edit</a>
+    <a asp-action="Create" class="btn btn-success">Создать через Create</a>
     <hr />
 
     <table class="table table-bordered" id="employees-table">
@@ -19,6 +21,8 @@
                 <th>Отчество</th>
                 <th>Возраст</th>
                 <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -26,12 +30,18 @@
             {
                 <tr>
                     <td>@employee.Id</td>
-                    <td>@employee.SurName</td>
-                    <td>@employee.FirstName</td>
+                    <td>@employee.SecondName</td>
+                    <td>@employee.Name</td>
                     <td>@employee.Patronymic</td>
                     <td>@employee.Age</td>
                     <td>
                         <a asp-controller="Employees" asp-action="Details" asp-route-Id="@employee.Id">Карточка</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Employees" asp-action="Edit" asp-route-Id="@employee.Id">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Employees" asp-action="Delete" asp-route-Id="@employee.Id" class="text-danger">Delete</a>
                     </td>
                 </tr>
             }
@@ -40,11 +50,11 @@
 </div>
 
 @section Styles{
-    <style>
+    @*<style>
         #employees-table {
             background: red
         }
-    </style>
+    </style>*@
 }
 
 @section Scripts

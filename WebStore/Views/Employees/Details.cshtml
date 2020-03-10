@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model EmployeeViewModel
 
 @{
     ViewData["Title"] = "Сотрудник #" + Model.Id;
@@ -8,8 +8,8 @@
     <h3>@ViewData["Title"]</h3>
     <hr />
 
-    <p>@Model.SurName</p>
-    <p>@Model.FirstName</p>
+    <p>@Model.SecondName</p>
+    <p>@Model.Name</p>
     <p>@Model.Patronymic</p>
     <p>@Model.Age</p>
 
