@@ -22,10 +22,8 @@ namespace WebStore
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-            //AddTransient - каждый раз будет создаватьс€ экземпл€р сервиса
-            //AddScoped - один экземпл€р на область видимости
-            //AddSingleton - один объект на всЄ врем€ жизни приложени€
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+            services.AddSingleton<IProductData, InMemoryProductData>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider ServiceManager)
