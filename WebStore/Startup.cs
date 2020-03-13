@@ -1,9 +1,12 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.Controllers;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services;
 
@@ -19,13 +22,11 @@ namespace WebStore
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-            //AddTransient - каждый раз будет создаватьс€ экземпл€р сервиса
-            //AddScoped - один экземпл€р на область видимости
-            //AddSingleton - один объект на всЄ врем€ жизни приложени€
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
+            services.AddSingleton<IProductData, InMemoryProductData>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider ServiceManager)
         {
             if (env.IsDevelopment())
             {
