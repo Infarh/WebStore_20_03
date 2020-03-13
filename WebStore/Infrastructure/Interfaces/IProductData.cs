@@ -13,5 +13,10 @@ namespace WebStore.Infrastructure.Interfaces
         /// <summary>Получить все бренды</summary>
         /// <returns>Перечисление брендов каталога</returns>
         IEnumerable<Brand> GetBrands();
+
+        /// <summary>Товары из каталога</summary>
+        /// <param name="Filter">Критерий поиска/фильтрации</param>
+        /// <returns>Искомые товары из каталога товаров</returns>
+        IEnumerable<Product> GetProducts(ProductFilter Filter = null);
     }
 }
