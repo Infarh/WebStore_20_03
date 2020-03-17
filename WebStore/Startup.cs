@@ -13,6 +13,7 @@ using WebStore.DAL.Context;
 using WebStore.Data;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services;
+using WebStore.Infrastructure.Services.InMemory;
 
 namespace WebStore
 {
