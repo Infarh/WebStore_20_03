@@ -28,6 +28,8 @@ namespace WebStore.Domain.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
+        public string Description { get; set; }
+
         //[NotMapped]
         //public int NotMappedProperty { get; set; }
     }
