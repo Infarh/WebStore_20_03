@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using WebStore.Controllers;
 using WebStore.DAL.Context;
 using WebStore.Data;
+using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services;
 using WebStore.Infrastructure.Services.InMemory;
@@ -26,9 +28,43 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WebStoreDB>(opt => 
+            services.AddDbContext<WebStoreDB>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<WebStoreDBInitializer>();
+
+            services.AddIdentity<User, Role>()
+               .AddEntityFrameworkStores<WebStoreDB>()
+               .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(opt =>
+            {
+                opt.Password.RequiredLength = 3;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequiredUniqueChars = 3;
+
+                //opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCD...123457890";
+                opt.User.RequireUniqueEmail = false;
+
+                opt.Lockout.AllowedForNewUsers = true;
+                opt.Lockout.MaxFailedAccessAttempts = 10;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+            });
+
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.Name = "WebStore";
+                opt.Cookie.HttpOnly = true;
+                opt.ExpireTimeSpan = TimeSpan.FromDays(10);
+
+                opt.LoginPath = "/Account/Login";
+                opt.LogoutPath = "/Account/Logout";
+                opt.AccessDeniedPath = "/Account/AccessDenied";
+
+                opt.SlidingExpiration = true;
+            });
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
@@ -50,6 +86,8 @@ namespace WebStore
             app.UseStaticFiles();
             app.UseDefaultFiles();
 
+            app.UseAuthentication();
+
             app.UseRouting();
 
             app.UseWelcomePage("/welcome");
@@ -62,7 +100,7 @@ namespace WebStore
                 });
 
                 endpoints.MapControllerRoute(
-                    name: "default", 
+                    name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
