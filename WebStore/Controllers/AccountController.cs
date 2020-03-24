@@ -35,6 +35,8 @@ namespace WebStore.Controllers
             var register_result = await _UserManager.CreateAsync(user, Model.Password);
             if (register_result.Succeeded)
             {
+                await _UserManager.AddToRoleAsync(user, Role.User);
+
                 await _SignInManager.SignInAsync(user, false);
                 return RedirectToAction("Index", "Home");
             }
@@ -55,7 +57,7 @@ namespace WebStore.Controllers
         public async Task<IActionResult> Login(LoginViewModel Model)
         {
             if (!ModelState.IsValid) return View(Model);
-
+                                          
             var login_result = await _SignInManager.PasswordSignInAsync(
                 Model.UserName,
                 Model.Password,
