@@ -11,7 +11,7 @@
                     <div class="productinfo text-center">
                         <img src="~/images/shop/@product.ImageUrl" alt="" />
                         <h2>@product.Price</h2>
-                        <p>@product.Name</p>
+                        <p><a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id">@product.Name</a></p>
                         <a href="#" class="btn btn-default add-to-cart">
                             <i class="fa fa-shopping-cart"></i>Добавить в корзину
                         </a>
@@ -19,7 +19,7 @@
                     <div class="product-overlay">
                         <div class="overlay-content">
                             <h2>@product.Price</h2>
-                            <p>@product.Name</p>
+                            <p><a asp-controller="Catalog" asp-action="Details" asp-route-id="@product.Id">@product.Name</a></p>
                             <a href="#" class="btn btn-default add-to-cart">
                                 <i class="fa fa-shopping-cart"></i>Добавить в корзину
                             </a>
