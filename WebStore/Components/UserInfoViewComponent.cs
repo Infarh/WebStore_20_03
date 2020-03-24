@@ -7,5 +7,11 @@ namespace WebStore.Components
         public IViewComponentResult Invoke() => User.Identity?.IsAuthenticated == true
             ? View("UserInfo")
             : View();
+
+        //public IViewComponentResult Invoke() => User.Identity?.IsAuthenticated == true
+        //    ? User.IsInRole(Role.Administrator)
+        //        ? View("AdminInfo")
+        //        : View("UserInfo")
+        //    : View();
     }
 }

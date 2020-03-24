@@ -13,7 +13,8 @@ namespace WebStore.Infrastructure.Mapping
             Name = p.Name,
             Order = p.Order,
             Price = p.Price,
-            ImageUrl = p.ImageUrl
+            ImageUrl = p.ImageUrl,
+            Brand = p.Brand?.Name,
         };
 
         public static IEnumerable<ProductViewModel> ToView(this IEnumerable<Product> p) => p.Select(ToView);

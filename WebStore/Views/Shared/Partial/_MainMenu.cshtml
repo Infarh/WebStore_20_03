@@ -2,12 +2,9 @@
     <ul class="nav navbar-nav collapse navbar-collapse">
         <li><a asp-controller="Home" asp-action="Index" class="active">Главная</a></li>
         <li class="dropdown">
-            <a href="#">Магазин<i class="fa fa-angle-down"></i></a>
+            <a asp-controller="Catalog" asp-action="Shop">Магазин<i class="fa fa-angle-down"></i></a>
             <ul role="menu" class="sub-menu">
                 <li><a asp-controller="Catalog" asp-action="Shop">Каталог товаров</a></li>
-                <li><a asp-controller="Catalog" asp-action="Details">Детали товара</a></li>
-                <li><a asp-controller="Home" asp-action="CheckOut">Оформление заказа</a></li>
-                <li><a asp-controller="Home" asp-action="Cart">Корзина</a></li>
             </ul>
         </li>
         <li class="dropdown">
