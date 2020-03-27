@@ -35,6 +35,8 @@ namespace WebStore.Infrastructure.Services.InSQL
             if (Filter?.Ids?.Count > 0)
                 query = query.Where(product => Filter.Ids.Contains(product.Id));
 
+            var sql = query.ToSql();
+
             return query.AsEnumerable();
         }
 
