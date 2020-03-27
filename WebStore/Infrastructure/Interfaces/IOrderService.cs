@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebStore.Domain.Entities.Orders;
 using WebStore.ViewModels;
 using WebStore.ViewModels.Orders;
@@ -11,6 +12,6 @@ namespace WebStore.Infrastructure.Interfaces
 
         Order GetOrderById(int id);
 
-        Order CreateOrder(string UserName, CartViewModel Cart, OrderViewModel OrderModel);
+        Task<Order> CreateOrderAsync(string UserName, CartViewModel Cart, OrderViewModel OrderModel);
     }
 }
