@@ -32,6 +32,51 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Products\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\admin\css\.DS_Store" />
+    <None Include="wwwroot\admin\css\bootstrap.map" />
+    <None Include="wwwroot\admin\css\main.css.map" />
+    <None Include="wwwroot\admin\css\main.map" />
+    <None Include="wwwroot\admin\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\admin\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\admin\fonts\Linearicons-Free.svg" />
+    <None Include="wwwroot\admin\fonts\Linearicons-Free.woff2" />
+    <None Include="wwwroot\admin\fonts\themify.svg" />
+    <None Include="wwwroot\admin\img\.DS_Store" />
+    <None Include="wwwroot\admin\img\organic-food\.DS_Store" />
+    <None Include="wwwroot\admin\js\.DS_Store" />
+    <None Include="wwwroot\admin\js\countdown.js" />
+    <None Include="wwwroot\admin\js\gmaps.min.js" />
+    <None Include="wwwroot\admin\js\ion.rangeSlider.js" />
+    <None Include="wwwroot\admin\js\jquery.ajaxchimp.min.js" />
+    <None Include="wwwroot\admin\js\jquery.magnific-popup.min.js" />
+    <None Include="wwwroot\admin\js\jquery.nice-select.min.js" />
+    <None Include="wwwroot\admin\js\jquery.sticky.js" />
+    <None Include="wwwroot\admin\js\main.js" />
+    <None Include="wwwroot\admin\js\nouislider.min.js" />
+    <None Include="wwwroot\admin\js\owl.carousel.min.js" />
+    <None Include="wwwroot\admin\js\parallax.min.js" />
+    <None Include="wwwroot\admin\js\vendor\bootstrap.min.js" />
+    <None Include="wwwroot\admin\js\vendor\jquery-2.2.4.min.js" />
+    <None Include="wwwroot\admin\js\vendor\popper.js" />
+    <None Include="wwwroot\admin\scss\.DS_Store" />
+    <None Include="wwwroot\admin\scss\main.scss" />
+    <None Include="wwwroot\admin\scss\theme\_banner.scss" />
+    <None Include="wwwroot\admin\scss\theme\_blog.scss" />
+    <None Include="wwwroot\admin\scss\theme\_common.scss" />
+    <None Include="wwwroot\admin\scss\theme\_contact.scss" />
+    <None Include="wwwroot\admin\scss\theme\_elements.scss" />
+    <None Include="wwwroot\admin\scss\theme\_footer.scss" />
+    <None Include="wwwroot\admin\scss\theme\_header.scss" />
+    <None Include="wwwroot\admin\scss\theme\_home.scss" />
+    <None Include="wwwroot\admin\scss\theme\_mixins.scss" />
+    <None Include="wwwroot\admin\scss\theme\_predefine.scss" />
+    <None Include="wwwroot\admin\scss\theme\_product.scss" />
+    <None Include="wwwroot\admin\scss\theme\_reset.scss" />
+    <None Include="wwwroot\admin\scss\theme\_variables.scss" />
   </ItemGroup>
 
 </Project>

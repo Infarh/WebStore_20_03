@@ -2,7 +2,7 @@
     <ul class="nav navbar-nav">
         @if (User.IsInRole(WebStore.Domain.Entities.Identity.Role.Administrator))
         {
-            <li><a href="#"><i class="fa fa-key"></i> Админка</a></li>
+            <li><a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fa fa-key"></i> Админка</a></li>
         }
         <li><a href="#"><i class="fa fa-star"></i> Желания</a></li>
         <li><a asp-controller="Cart" asp-action="Details"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
