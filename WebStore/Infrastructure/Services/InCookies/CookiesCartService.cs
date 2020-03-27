@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -99,18 +100,22 @@ namespace WebStore.Infrastructure.Services.InCookies
 
         public CartViewModel TransformFromCart()
         {
-            var products = _ProductData.GetProducts(new ProductFilter
-            {
-                Ids = Cart.Items.Select(item => item.ProductId).ToList()
-            });
-
-            var product_view_models = products.ToView();
+            var cart_items = Cart.Items;
+            var products = _ProductData
+               .GetProducts(new ProductFilter
+                {
+                    Ids = cart_items.Select(item => item.ProductId).ToList()
+                })
+               .ToView()
+               .ToDictionary(p => p.Id);
 
             return new CartViewModel
             {
-                Items = Cart.Items.ToDictionary(
-                    item => product_view_models.First(p => p.Id == item.ProductId),
-                    item => item.Quantity
+                Items = cart_items
+                   .Where(item => products.ContainsKey(item.ProductId))
+                   .ToDictionary(
+                        item => products[item.ProductId],
+                        item => item.Quantity
                     )
             };
         }

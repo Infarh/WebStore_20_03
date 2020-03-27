@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Domain.Entities.Orders;
 using WebStore.Infrastructure.Interfaces;
+using WebStore.ViewModels;
+using WebStore.ViewModels.Orders;
 
 namespace WebStore.Controllers
 {
@@ -13,7 +16,11 @@ namespace WebStore.Controllers
 
         public CartController(ICartService CartService) => _CartService = CartService;
 
-        public IActionResult Details() => View(_CartService.TransformFromCart());
+        public IActionResult Details() => View(new CartOrderViewModel
+        {
+            CartViewModel = _CartService.TransformFromCart(),
+            OrderViewModel = new OrderViewModel()
+        });
 
         public IActionResult AddToCart(int id)
         {
@@ -37,6 +44,28 @@ namespace WebStore.Controllers
         {
             _CartService.RemoveAll();
             return RedirectToAction(nameof(Details));
+        }
+
+        public async Task<IActionResult> CheckOut(OrderViewModel Model, [FromServices] IOrderService OrderService)
+        {
+            if (!ModelState.IsValid)
+                return View(nameof(Details), new CartOrderViewModel
+                {
+                    CartViewModel = _CartService.TransformFromCart(),
+                    OrderViewModel = Model
+                });
+
+            var order = await OrderService.CreateOrderAsync(User.Identity.Name, _CartService.TransformFromCart(), Model);
+
+            _CartService.RemoveAll();
+
+            return RedirectToAction(nameof(OrderConfirmed), new { id = order.Id });
+        }
+
+        public IActionResult OrderConfirmed(int id)
+        {
+            ViewBag.OrderId = id;
+            return View();
         }
     }
 }
