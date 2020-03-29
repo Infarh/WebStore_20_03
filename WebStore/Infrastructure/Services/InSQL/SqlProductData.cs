@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
@@ -32,10 +31,10 @@ namespace WebStore.Infrastructure.Services.InSQL
             if (Filter?.SectionId != null)
                 query = query.Where(product => product.SectionId == Filter.SectionId);
 
-            if (Filter?.Ids?.Count > 0)
+            if (Filter?.Ids?.Any() == true)
                 query = query.Where(product => Filter.Ids.Contains(product.Id));
 
-            var sql = query.ToSql();
+            //var sql = query.ToSql();
 
             return query.AsEnumerable();
         }

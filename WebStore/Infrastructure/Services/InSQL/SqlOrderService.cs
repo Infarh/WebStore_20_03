@@ -40,14 +40,10 @@ namespace WebStore.Infrastructure.Services.InSQL
         public async Task<Order> CreateOrderAsync(string UserName, CartViewModel Cart, OrderViewModel OrderModel)
         {
             var user = await _UserManager.FindByNameAsync(UserName);
-            if(user is null)
+            if (user is null)
                 throw new InvalidOperationException("Невозможно сформировать заказ - пользователь не определён");
 
-            var order_products = _ProductData
-               .GetProducts(new ProductFilter
-                {
-                    Ids = Cart.Items.Select(p => p.Key.Id).ToList()
-                });
+            var order_products = _ProductData.GetProducts(new ProductFilter { Ids = Cart.Items.Select(p => p.Product.Id) });
 
             var order = new Order
             {
@@ -58,12 +54,12 @@ namespace WebStore.Infrastructure.Services.InSQL
                 Date = DateTime.Now,
                 OrderItems = order_products.Join(
                     Cart.Items,
-                    p => p.Id,
-                    c => c.Key.Id,
+                    product => product.Id,
+                    cart_item => cart_item.Product.Id,
                     (product, item) => new OrderItem
                     {
                         Price = product.Price,
-                        Quantity = item.Value,
+                        Quantity = item.Quantity,
                         Product = product
                     }).ToArray()
             };

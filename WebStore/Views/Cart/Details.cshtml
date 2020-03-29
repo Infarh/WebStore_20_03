@@ -68,11 +68,8 @@
             <h3>Что бы Вы хотели сделать далее?</h3>
             <p>Выберите, есть ли у вас код скидки или бонусные баллы, которые вы хотите использовать или хотите оценить стоимость доставки.</p>
         </div>
-       
-        @{
-            var sum_cart = Model.CartViewModel.Items.Sum(item => item.Key.Price * item.Value);
-        }
-        <partial name="Partial/_CheckOut" model="@Model.OrderViewModel" view-data="@(new ViewDataDictionary(ViewData) { { "SumCart", sum_cart} })"/>
+    
+        <partial name="Partial/_CheckOut" model="@Model.OrderViewModel" view-data="@(new ViewDataDictionary(ViewData) { { "SumCart", Model.CartViewModel.TotalSum} })"/>
 
     </div>
 </section><!--/#do_action-->
