@@ -5,8 +5,10 @@ namespace WebStore.ViewModels
 {
     public class CartViewModel
     {
-        public Dictionary<ProductViewModel, int> Items { get; set; } = new Dictionary<ProductViewModel, int>();
+        public IEnumerable<(ProductViewModel Product, int Quantity)> Items { get; set; } = new List<(ProductViewModel Product, int Quantity)>();
 
-        public int ItemsCount => Items?.Sum(item => item.Value) ?? 0;
+        public int ItemsCount => Items?.Sum(item => item.Quantity) ?? 0;
+
+        public decimal TotalSum => Items?.Sum(item => item.Product.Price * item.Quantity) ?? 0m;
     }
 }

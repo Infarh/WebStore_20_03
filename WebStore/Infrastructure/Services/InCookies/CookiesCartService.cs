@@ -104,7 +104,7 @@ namespace WebStore.Infrastructure.Services.InCookies
             var products = _ProductData
                .GetProducts(new ProductFilter
                 {
-                    Ids = cart_items.Select(item => item.ProductId).ToList()
+                    Ids = cart_items.Select(item => item.ProductId)
                 })
                .ToView()
                .ToDictionary(p => p.Id);
@@ -113,10 +113,7 @@ namespace WebStore.Infrastructure.Services.InCookies
             {
                 Items = cart_items
                    .Where(item => products.ContainsKey(item.ProductId))
-                   .ToDictionary(
-                        item => products[item.ProductId],
-                        item => item.Quantity
-                    )
+                   .Select(item => (products[item.ProductId], item.Quantity))
             };
         }
     }
