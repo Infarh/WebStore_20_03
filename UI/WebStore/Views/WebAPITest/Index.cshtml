@@ -1,0 +1,25 @@
+﻿@model IEnumerable<string>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var i = 0; }
+            @foreach (var str in Model)
+            {
+                <tr>
+                    <td>@(i++)</td>
+                    <td>@str</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

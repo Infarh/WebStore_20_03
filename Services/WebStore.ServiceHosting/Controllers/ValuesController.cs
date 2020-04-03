@@ -11,6 +11,11 @@ namespace WebStore.ServiceHosting.Controllers
     {
         private static readonly List<string> __Values = Enumerable.Range(1, 10).Select(i => $"Value {i}").ToList();
 
+        public ValuesController()
+        {
+
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get() => __Values;
 
