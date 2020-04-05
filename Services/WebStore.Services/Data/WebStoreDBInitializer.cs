@@ -29,47 +29,98 @@ namespace WebStore.Services.Data
 
             await db.MigrateAsync().ConfigureAwait(false);
 
-            await InitializeIdentityAsync().ConfigureAwait(false);
+            await InitializeIdentityAsync();
 
-            await InitializeProductsAsync().ConfigureAwait(false);
+            await InitializeProductsAsync();
         }
 
         private async Task InitializeProductsAsync()
         {
+            // Если в БД есть товары, то БД считается проинициализированной и делать ничего не надо
             if (await _db.Products.AnyAsync()) return;
-
             var db = _db.Database;
-            using (var transaction = await db.BeginTransactionAsync().ConfigureAwait(false))
+
+            // Если надо инициализировать БД товарами, то надо её почистить от того, что там уже может быть (хлам)
+            await using (await db.BeginTransactionAsync())
             {
-                await _db.Sections.AddRangeAsync(TestData.Sections).ConfigureAwait(false);
+                // Находим все секции
+                var exists_sections = await _db.Sections.ToArrayAsync();
+                if (exists_sections.Length > 0) // Если они есть, то надо их удалить
+                {
+                   _db.Sections.RemoveRange(exists_sections);
+                    await _db.SaveChangesAsync();
+                }
 
-                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Sections] ON");
-                await _db.SaveChangesAsync().ConfigureAwait(false);
-                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Sections] OFF");
+                // Находим все бренды
+                var exists_brands = await _db.Brands.ToArrayAsync();
+                if (exists_brands.Length > 0) // Если они есть, то их тоже надо удалить
+                {
+                    _db.Brands.RemoveRange(exists_brands);
+                    await _db.SaveChangesAsync();
+                }
 
-                await transaction.CommitAsync().ConfigureAwait(false);
+                db.CommitTransaction();
             }
 
-            using (var transaction = await db.BeginTransactionAsync().ConfigureAwait(false))
+            // Создаём словарь по идентификаторам секций
+            var sections = TestData.Sections.ToDictionary(s => s.Id);
+            await using (await db.BeginTransactionAsync())
             {
-                await _db.Brands.AddRangeAsync(TestData.Brands).ConfigureAwait(false);
+                // Группируем все секции по идентификатору родительской секции
+                foreach (var child_sections in TestData.Sections.Where(s => s.ParentId != null).GroupBy(s => sections[(int)s.ParentId]))
+                    foreach (var child_section in child_sections) // В каждой группе мы получаем дочерние секции, а ключом группы будет родительская секция
+                        child_section.ParentSection = child_sections.Key; // Устанавливаем значение родительской секции для каждой дочерней
 
-                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Brands] ON");
-                await _db.SaveChangesAsync().ConfigureAwait(false);
-                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Brands] OFF");
+                // Чтобы EF съела и не подавилась нашими секциями, у них надо почистить значения первичного и внешнего ключей
+                foreach (var section in sections.Values)
+                {
+                    section.Id = 0;
+                    section.ParentId = null;
+                }
 
-                await transaction.CommitAsync().ConfigureAwait(false);
+                // Просто добавляем все секции в контекст БД
+                await _db.Sections.AddRangeAsync(sections.Values);
+                await _db.SaveChangesAsync();
+
+                db.CommitTransaction();
             }
 
-            using (var transaction = await db.BeginTransactionAsync().ConfigureAwait(false))
+            // Аналогично для брендов - все бренды в словарь по их первичному ключу
+            // Словарь нам понадобится ниже при добавлении товаров.
+            var brands = TestData.Brands.ToDictionary(b => b.Id);
+            foreach (var brand in brands.Values) // И очищаем значение первичного ключа для брендов чтобы EF не подавилась.
+                brand.Id = 0;
+
+            await using (await db.BeginTransactionAsync())
             {
-                await _db.Products.AddRangeAsync(TestData.Products).ConfigureAwait(false);
+                await _db.Brands.AddRangeAsync(TestData.Brands); // Просто скармливаем все бренды контексту БД
+                await _db.SaveChangesAsync();
+                db.CommitTransaction();
+            }
 
-                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Products] ON");
-                await _db.SaveChangesAsync().ConfigureAwait(false);
-                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Products] OFF");
+            // Надо предварительно обработать все наши товары
+            foreach (var product in TestData.Products)
+            {
+                // 1. Удалить первичный ключ
+                product.Id = 0;
+                if (product.BrandId != null) // Если задан внешний ключ в таблицу брендов, то
+                {
+                    product.Brand = brands[(int)product.BrandId]; // Извлекаем бренд из словаря брендов
+                    product.BrandId = null;                       // И обязательно удаляем значение внешнего ключа
+                }
 
-                await transaction.CommitAsync().ConfigureAwait(false);
+                product.Section = sections[product.SectionId];    // Извлекаем секцию из ловаря секций
+                product.SectionId = 0;                            // И обязательно удаляем значение внешнего ключа
+            }
+
+            await using (await db.BeginTransactionAsync())
+            {
+                await _db.Products.AddRangeAsync(TestData.Products); // После чистки товары просто попадают в контекст БД!
+                // В принципе, все обращения к контексту для отдельно для добавления брендов и секций можно было не проводить
+                // Бренды и секции всё равно попали бы в БД при добавлении товаров!
+
+                await _db.SaveChangesAsync();
+                db.CommitTransaction();
             }
         }
 
