@@ -105,6 +105,7 @@ namespace WebStore.Services.Products.InCookies
                 {
                     Ids = cart_items.Select(item => item.ProductId).ToList()
                 })
+               .Select(p => p.FromDTO())
                .ToView()
                .ToDictionary(p => p.Id);
 
