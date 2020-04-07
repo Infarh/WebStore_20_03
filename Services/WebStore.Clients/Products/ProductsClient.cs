@@ -18,7 +18,7 @@ namespace WebStore.Clients.Products
         public IEnumerable<Brand> GetBrands() => Get<List<Brand>>($"{_ServiceAddress}/brands");
 
         public IEnumerable<ProductDTO> GetProducts(ProductFilter Filter = null) =>
-            Post(_ServiceAddress, Filter)
+            Post(_ServiceAddress, Filter ?? new ProductFilter())
                .Content
                .ReadAsAsync<List<ProductDTO>>()
                .Result;
