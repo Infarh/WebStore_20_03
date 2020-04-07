@@ -26,7 +26,7 @@ namespace WebStore.DAL.Context
 
             // Описываем, что внутри сущности Секция есть
             builder.Entity<Section>()
-               .HasMany(ParentSection => ParentSection.ChildSections)   // много других сущностей "Секция"
+               .HasMany(ParentSection => ParentSection.ChildSections)   // много других сущностный "Секция"
                .WithOne(ChildSection => ChildSection.ParentSection)     // а у каждый дочерней секции есть одна сущность "Секция" родительская
                .HasForeignKey(s => s.ParentId)                          // при этом внешним ключом будет служить указываемое здесь свойство
                .OnDelete(DeleteBehavior.Cascade);                       // и указываем, что при удалении надо удалять связанные сущности каскадно

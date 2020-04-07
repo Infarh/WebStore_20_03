@@ -29,9 +29,9 @@ namespace WebStore.Services.Data
 
             await db.MigrateAsync().ConfigureAwait(false);
 
-            await InitializeIdentityAsync();
+            await InitializeIdentityAsync().ConfigureAwait(false);
 
-            await InitializeProductsAsync();
+            await InitializeProductsAsync().ConfigureAwait(false);
         }
 
         private async Task InitializeProductsAsync()
