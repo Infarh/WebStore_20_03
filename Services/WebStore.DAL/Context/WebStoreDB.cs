@@ -19,5 +19,17 @@ namespace WebStore.DAL.Context
         public DbSet<OrderItem> OrderItems { get; set; }
 
         public WebStoreDB(DbContextOptions<WebStoreDB> Options) : base(Options) { }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            // Описываем, что внутри сущности Секция есть
+            builder.Entity<Section>()
+               .HasMany(ParentSection => ParentSection.ChildSections)   // много других сущностный "Секция"
+               .WithOne(ChildSection => ChildSection.ParentSection)     // а у каждый дочерней секции есть одна сущность "Секция" родительская
+               .HasForeignKey(s => s.ParentId)                          // при этом внешним ключом будет служить указываемое здесь свойство
+               .OnDelete(DeleteBehavior.Cascade);                       // и указываем, что при удалении надо удалять связанные сущности каскадно
+        }
     }
 }
