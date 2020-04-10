@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Data;
 using WebStore.Services.Products.InCookies;
 using WebStore.Services.Products.InMemory;
 using WebStore.Services.Products.InSQL;
@@ -40,7 +41,8 @@ namespace WebStore.ServiceHosting
             #region База данных
 
             services.AddDbContext<WebStoreDB>(opt =>
-                   opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
+                   opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<WebStoreDBInitializer>();
 
             #endregion
 
@@ -67,8 +69,10 @@ namespace WebStore.ServiceHosting
             #endregion
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitializer db)
         {
+            db.Initialize();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
