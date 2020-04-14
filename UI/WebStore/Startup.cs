@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,9 +15,7 @@ using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure.AutoMapper;
 using WebStore.Interfaces.Api;
 using WebStore.Interfaces.Services;
-using WebStore.Services.Data;
 using WebStore.Services.Products.InCookies;
-using WebStore.Services.Products.InMemory;
 
 namespace WebStore
 {

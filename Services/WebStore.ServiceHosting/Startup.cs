@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +29,7 @@ namespace WebStore.ServiceHosting
         {
             services.AddControllers();
 
-            #region Сервисы бизнес-логики
+            #region РЎРµСЂРІРёСЃС‹ Р±РёР·РЅРµСЃ-Р»РѕРіРёРєРё
 
             services.AddSingleton<IEmployeesData, InMemoryEmployeesData>();
             services.AddScoped<IProductData, SqlProductData>();
@@ -40,7 +40,7 @@ namespace WebStore.ServiceHosting
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            #region База данных
+            #region Р‘Р°Р·Р° РґР°РЅРЅС‹С…
 
             services.AddDbContext<WebStoreDB>(opt =>
                    opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
