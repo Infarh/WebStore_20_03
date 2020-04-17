@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Logs\**" />
     <Compile Remove="Views\Catalog\Partial\**" />
+    <Content Remove="Logs\**" />
     <Content Remove="Views\Catalog\Partial\**" />
+    <EmbeddedResource Remove="Logs\**" />
     <EmbeddedResource Remove="Views\Catalog\Partial\**" />
+    <None Remove="Logs\**" />
     <None Remove="Views\Catalog\Partial\**" />
   </ItemGroup>
 
