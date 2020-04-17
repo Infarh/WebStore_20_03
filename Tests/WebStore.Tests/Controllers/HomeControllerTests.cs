@@ -103,7 +103,9 @@ namespace WebStore.Tests.Controllers
 
             var result = controller.ErrorStatus(status_code);
 
-            Assert.NotNull(result);
+            var redirect_to_action = Assert.IsType<RedirectToActionResult>(result); //(RedirectToActionResult) result;
+            Assert.Null(redirect_to_action.ControllerName);
+            Assert.Equal(nameof(HomeController.Error404), redirect_to_action.ActionName);
         }
     }
 }
