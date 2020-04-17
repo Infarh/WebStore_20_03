@@ -155,7 +155,7 @@ namespace WebStore.Services.Tests.Products
             Assert.Equal(2, _Cart.Items[1].Quantity);
         }
 
-        [TestMethod]
+        [TestMethod/*, Ignore, Description(""), Timeout(200)*/]
         public void CartService_Remove_Item_When_Decrement_to_0()
         {
             const int item_id = 1;
