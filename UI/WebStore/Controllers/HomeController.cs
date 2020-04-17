@@ -17,8 +17,8 @@ namespace WebStore.Controllers
 
         public IActionResult BlogSingle() => View();
 
-        public IActionResult CheckOut() => View();
-
         public IActionResult ContactUs() => View();
+
+        public IActionResult ErrorStatus(string Code) => RedirectToAction(nameof(Error404));
     }
 }
