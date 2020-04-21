@@ -15,7 +15,7 @@
             </ul>
         </li>
         <li><a asp-controller="Home" asp-action="Error404">404</a></li>
-        <li><a asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
+        <li><a asp-controller="Home" asp-action="ContactUs" class="@IsActive("Home", "ContactUs")">Контакты</a></li>
         <li><a asp-controller="Employees" asp-action="Index">Сотрудники</a></li>
         <li class="dropdown">
             <a href="#">Тесты<i class="fa fa-angle-down"></i></a>
@@ -25,3 +25,17 @@
         </li>
     </ul>
 </div>
+
+@functions
+{
+    string IsActive(string Controller, string Action) =>
+        Equals(ViewContext.RouteData.Values["controller"], Controller)
+        && Equals(ViewContext.RouteData.Values["action"], Action)
+            ? "active"
+            : null;
+
+    string IsActive(string Controller) =>
+        Equals(ViewContext.RouteData.Values["controller"], Controller)
+            ? "active"
+            : null;
+}
