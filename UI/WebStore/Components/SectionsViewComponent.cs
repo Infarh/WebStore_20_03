@@ -6,18 +6,13 @@ using WebStore.Interfaces.Services;
 
 namespace WebStore.Components
 {
-    //[ViewComponent(Name = "CatalogSections")]
     public class SectionsViewComponent : ViewComponent
     {
         private readonly IProductData _ProductData;
+
         public SectionsViewComponent(IProductData ProductData) => _ProductData = ProductData;
 
         public IViewComponentResult Invoke() => View(GetSections());
-
-        //public async Task<IViewComponentResult> InvokeAsync()
-        //{
-
-        //}
 
         private IEnumerable<SectionViewModel> GetSections()
         {
