@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace WebStore.TagHelpers
 {
@@ -13,6 +11,7 @@ namespace WebStore.TagHelpers
     public class ActiveRouteTagHelper : TagHelper
     {
         private const string AttributeName = "is-active-route";
+        private const string IgnoreActionName = "ignore-action";
 
         [HtmlAttributeName("asp-action")]
         public string Action { get; set; }
@@ -28,13 +27,16 @@ namespace WebStore.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (IsActive())
+            var is_ignore_action = context.AllAttributes.ContainsName(IgnoreActionName);
+
+            if (IsActive(is_ignore_action))
                 MakeActive(output);
 
             output.Attributes.RemoveAll(AttributeName);
+            output.Attributes.RemoveAll(IgnoreActionName);
         }
 
-        private bool IsActive()
+        private bool IsActive(bool IsIgnoreAction)
         {
             var route_values = ViewContext.RouteData.Values;
 
@@ -46,7 +48,7 @@ namespace WebStore.TagHelpers
             if (!string.IsNullOrWhiteSpace(Controller) && !string.Equals(Controller, current_controller, ignore_case))
                 return false;
 
-            if (!string.IsNullOrWhiteSpace(Action) && !string.Equals(Action, current_action, ignore_case))
+            if (!IsIgnoreAction &&!string.IsNullOrWhiteSpace(Action) && !string.Equals(Action, current_action, ignore_case))
                 return false;
 
             foreach (var (key, value) in RouteValues)
