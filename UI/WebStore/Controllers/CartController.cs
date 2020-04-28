@@ -78,5 +78,35 @@ namespace WebStore.Controllers
             ViewBag.OrderId = id;
             return View();
         }
+
+        #region API
+
+        public IActionResult GetCartView() => ViewComponent("Cart");
+
+        public IActionResult AddToCartAPI(int id)
+        {
+            _CartService.AddToCart(id);
+            return Json(new { id, message = $"Товар id:{id} был добавлен в корзину" });
+        }
+
+        public IActionResult DecrementFromCartAPI(int id)
+        {
+            _CartService.DecrementFromCart(id);
+            return Json(new { id, message = $"Количество товара с id:{id} былоуменьшено на 1" });
+        }
+
+        public IActionResult RemoveFromCartAPI(int id)
+        {
+            _CartService.RemoveFromCart(id);
+            return Json(new { id, message = $"Товар id:{id} был удалён из корзины" });
+        }
+
+        public IActionResult RemoveAllAPI()
+        {
+            _CartService.RemoveAll();
+            return Json(new { message = "Корзина была успешно очищена" });
+        }
+
+        #endregion
     }
 }
