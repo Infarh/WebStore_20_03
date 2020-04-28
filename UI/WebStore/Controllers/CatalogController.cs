@@ -26,7 +26,7 @@ namespace WebStore.Controllers
             {
                 SectionId = SectionId,
                 BrandId = BrandId,
-                Products = products.Select(ProductMapping.FromDTO).Select(ProductMapping.ToView).OrderBy(p => p.Order)
+                Products = products.Products.Select(ProductMapping.FromDTO).Select(ProductMapping.ToView).OrderBy(p => p.Order)
             });
         }
 
