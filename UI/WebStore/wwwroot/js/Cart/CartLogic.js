@@ -7,7 +7,7 @@
     init: function(properties) {
         $.extend(Cart._properties, properties);
 
-        $(".add-to-cart").click(addToCart);
+        $(".add-to-cart").click(Cart.addToCart);
     },
 
     addToCart: function(event) {
@@ -18,8 +18,8 @@
 
         $.get(Cart._properties.addToCartLink + "/" + id)
             .done(function() {
-                showToolTip(button);
-                refreshCartView();
+                Cart.showToolTip(button);
+                Cart.refreshCartView();
             })
             .fail(function() { console.log("addToCart fail") });
     },
